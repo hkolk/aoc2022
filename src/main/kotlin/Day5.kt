@@ -1,49 +1,46 @@
-class Day5(val input: List<String>) {
-    fun solvePart1(): String {
-        val stackLines = input.takeWhile { it.isNotEmpty() }
-        val moves = input.dropWhile { it.isNotEmpty() }.drop(1)
+class Day5(private val input: List<String>) {
+    private val moves = input.dropWhile { it.isNotEmpty() }.drop(1).map { Move.fromString(it) }
 
-        val numstacks = (stackLines.last().trim().length+3) / 4
-        val stacks = (1..numstacks).associateWith { ArrayDeque<Char>() }
-        stackLines.reversed().drop(1).forEach { line ->
-            for(i in 1..numstacks) {
-                val name = line[i*4-3]
-                if(name != ' ') {
-                    stacks[i]?.add(name)
-                }
+    data class Move(val count:Int, val from:Int, val to:Int) {
+        companion object {
+            fun fromString(line: String): Move {
+                val parts = line.split(' ').mapNotNull { it.toIntOrNull() }
+                return Move(parts[0], parts[1], parts[2])
             }
         }
-        moves.forEach { line ->
-            val parts = line.split(' ').mapNotNull { it.toIntOrNull() }
-            for(i in 1 .. parts[0]) {
-                stacks[parts[2]]!!.add(stacks[parts[1]]!!.removeLast())
-            }
+    }
+    fun solvePart1(): String {
+        val stacks = createStacks(input.takeWhile { it.isNotEmpty() }.reversed().drop(1))
+
+
+        moves.forEach { move ->
+            val subStack = (1 .. move.count).map { stacks[move.from]!!.removeLast() }
+            stacks[move.to]!!.addAll(subStack)
         }
         return stacks.map { it.value.last() }.joinToString("")
     }
     fun solvePart2(): String {
-        val stackLines = input.takeWhile { it.isNotEmpty() }
-        val moves = input.dropWhile { it.isNotEmpty() }.drop(1)
 
-        val numstacks = (stackLines.last().trim().length+3) / 4
-        val stacks = (1..numstacks).associateWith { ArrayDeque<Char>() }
-        stackLines.reversed().drop(1).forEach { line ->
-            for(i in 1..numstacks) {
-                val name = line[i*4-3]
-                if(name != ' ') {
+        val stacks = createStacks(input.takeWhile { it.isNotEmpty() }.reversed().drop(1))
+
+        moves.forEach { move ->
+            val subStack = (1 .. move.count).map { stacks[move.from]!!.removeLast() }
+            stacks[move.to]!!.addAll(subStack.reversed())
+        }
+        return stacks.map { it.value.last() }.joinToString("")
+    }
+
+    private fun createStacks(input: List<String>): Map<Int, ArrayDeque<Char>> {
+        val numStacks = (input.last().length + 1) / 4
+        val stacks = (1..numStacks).associateWith { ArrayDeque<Char>() }
+        input.forEach { line ->
+            for (i in 1..numStacks) {
+                val name = line[i * 4 - 3]
+                if (name != ' ') {
                     stacks[i]?.add(name)
                 }
             }
         }
-        moves.forEach { line ->
-            val parts = line.split(' ').mapNotNull { it.toIntOrNull() }
-            val substack = mutableListOf<Char>()
-            println(line)
-            println(stacks)
-            for(i in 1 .. parts[0]) {
-                substack.add(stacks[parts[1]]!!.removeLast())
-            }
-            stacks[parts[2]]!!.addAll(substack.reversed())
-        }
-        return stacks.map { it.value.last() }.joinToString("")
-    }}
+        return stacks
+    }
+}

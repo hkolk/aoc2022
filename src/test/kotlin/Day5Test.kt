@@ -47,7 +47,7 @@ move 1 from 1 to 2
         @Test
         fun `Actual Answer`() {
             val answer = Day5(realInput).solvePart2()
-            assertThat(answer).isEqualTo("")
+            assertThat(answer).isEqualTo("QNDWLMGNS")
         }
     }
 }
