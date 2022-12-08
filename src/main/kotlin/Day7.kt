@@ -21,9 +21,7 @@ class Day7(val input: List<String>) {
             return contents.sumOf{it.getSize()}
         }
         fun getDirectories(): List<Directory> {
-            val list = contents.filterIsInstance<Directory>().flatMap{it.getDirectories()}.toMutableList()
-            list.add(this)
-            return list
+            return contents.filterIsInstance<Directory>().flatMap { it.getDirectories() }.plus(this)
         }
     }
     class File(val parent: Directory, val name: String, private val size: Long): Node() {
