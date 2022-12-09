@@ -83,3 +83,15 @@ fun Map<Point2D, Int>.print() {
         println()
     }
 }
+fun List<Point2D>.print() {
+    for(y in this.minAndMaxOf { it.y }.let { it.first..it.second }) {
+        for(x in this.minAndMaxOf { it.x }.let { it.first..it.second }) {
+            if(this.contains(Point2D(x, y))) {
+                print('░')
+            } else {
+                print(' ')
+            }
+        }
+        println()
+    }
+}
