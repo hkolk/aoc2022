@@ -48,51 +48,21 @@ class Day11(val input: List<String>) {
             }
         }
     }
-    fun solvePart1(): Long {
-        val monkeys = input.chunked(7).map{ Monkey.fromInput(it)}
-        println(monkeys)
-        for(round in 1..20) {
-            monkeys.forEach { monkey ->
-                val throws = monkey.throws()
-                //println(throws)
-                throws.forEach { (item, to) ->
-                    monkeys.first{ it.id == to }.addItem(item)
-                }
-            }
-            println("Round: $round:")
-            monkeys.forEach{ monkey ->
-                println("  Monkey ${monkey.id}: ${monkey.items}")
-            }
-        }
-        println("Inspections:")
-        monkeys.forEach{ monkey ->
-            println("  Monkey ${monkey.id}: ${monkey.inspections} inspections")
-        }
-        return monkeys.map{it.inspections}.sortedDescending().take(2).multiply()
-        TODO()
-    }
-    fun solvePart2(): Long {
+    private fun solve(decrease: Boolean = true, rounds: Int = 20): Long {
         val monkeys = input.chunked(7).map{ Monkey.fromInput(it)}
         val reducer = monkeys.map{it.divisibleBy}.multiply()
-        for(round in 1..10_000) {
+        for(round in 1..rounds) {
             monkeys.forEach { monkey ->
-                val throws = monkey.throws(decrease = false)
-                //println(throws)
+                val throws = monkey.throws(decrease)
                 throws.forEach { (item, to) ->
                     monkeys.first{ it.id == to }.addItem(item % reducer)
                 }
             }
-//           if(round % 1000 == 0) {
-//               println("Inspections:")
-//               monkeys.forEach { monkey ->
-//                   println("  Monkey ${monkey.id}: ${monkey.inspections} inspections")
-//               }
-//           }
         }
-//        println("Inspections:")
-//        monkeys.forEach{ monkey ->
-//            println("  Monkey ${monkey.id}: ${monkey.inspections} inspections")
-//        }
+
         return monkeys.map{it.inspections}.sortedDescending().take(2).multiply()
     }
+
+    fun solvePart1() = solve(true, 20)
+    fun solvePart2() = solve(false, 10_000)
 }
