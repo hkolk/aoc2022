@@ -46,3 +46,13 @@ fun List<String>.rotate(): List<String> = (0 until first().length).map { x -> (s
 fun <T:Number, E:Pair<String, T>, K> List<E>.sumValue(keySelector: (E) -> K) = groupingBy(keySelector).aggregate{ _, accu: Long?, element, _ -> element.second.toLong().plus(accu?:0L)}
 
 fun Boolean.toLong() = if(this) { 1L } else { 0L }
+
+fun <T> List<T>.padZip(other: List<T>): List<Pair<T?, T?>> {
+    return if(this.size == other.size) {
+        this.zip(other)
+    } else if (this.size < other.size) {
+        (this + List(other.size - this.size){null}).zip(other)
+    } else {
+        this.zip(other + List(this.size - other.size){null})
+    }
+}
