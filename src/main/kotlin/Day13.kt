@@ -1,6 +1,3 @@
-import net.bytebuddy.pool.TypePool.Resolution.Illegal
-import java.lang.IllegalStateException
-
 class Day13(val input: List<String>) {
 
     abstract sealed class PacketItem() {
@@ -130,7 +127,7 @@ class Day13(val input: List<String>) {
         val packet6 = PacketItem.read("[[6]]")
         val packets = input.filter { it.isNotEmpty() }.map { PacketItem.read(it) } + listOf(packet2, packet6)
         packets.sorted().forEachIndexed { index, item ->
-            println(item)
+            //println(item)
             if(item == packet2 || item == packet6) {
                 ret *= (index+1)
             }
