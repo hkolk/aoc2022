@@ -87,7 +87,10 @@ class Day13(val input: List<String>) {
                     is PacketList -> {
                         when(second) {
                             is PacketInteger -> {
-                                return first.compareTo(PacketList(listOf(second)))
+                                val ret =  first.compareTo(PacketList(listOf(second)))
+                                if(ret != 0) {
+                                    return ret
+                                }
                             }
                             is PacketList -> {
                                 val ret = first.compareTo(second)
@@ -116,27 +119,16 @@ class Day13(val input: List<String>) {
     fun solvePart1(): Int {
         val comms = input.chunked(3).map { PacketItem.read(it[0]) to PacketItem.read(it[1])}
         val results = comms.mapIndexed { index, (first, second) ->
-            println(first)
-            println(second)
             val compare = first.compareTo(second)
-            println(compare)
-            println()
             index+1 to compare
         }
         return results.filter { it.second == -1 }.sumOf{it.first}
-        TODO()
     }
     fun solvePart2(): Int {
-        val res = PacketItem.read("[6,4,3,7,0]").compareTo(PacketItem.read("[6,4,3,7]"))
-        println(res)
-        val res2 = PacketItem.read("[6,4,3,7,0]").compareTo(PacketItem.read("[[6]]"))
-        println(res2)
-
         var ret = 1
         val packet2 = PacketItem.read("[[2]]")
         val packet6 = PacketItem.read("[[6]]")
-        val packets = listOf(packet2, packet6) + input.filter { it.isNotEmpty() }.map { PacketItem.read(it) }
-
+        val packets = input.filter { it.isNotEmpty() }.map { PacketItem.read(it) } + listOf(packet2, packet6)
         packets.sorted().forEachIndexed { index, item ->
             println(item)
             if(item == packet2 || item == packet6) {
@@ -144,7 +136,6 @@ class Day13(val input: List<String>) {
             }
         }
         return ret
-        TODO()
     }
 
 }
