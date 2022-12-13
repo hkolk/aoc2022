@@ -1,8 +1,9 @@
+import net.bytebuddy.pool.TypePool.Resolution.Illegal
 import java.lang.IllegalStateException
 
 class Day13(val input: List<String>) {
 
-    sealed class PacketItem() {
+    abstract sealed class PacketItem() {
         companion object {
             fun read(input: String): PacketList {
                 val ret = innerRead(input).first.inner.first() as PacketList
@@ -54,12 +55,13 @@ class Day13(val input: List<String>) {
 
 
 
-    data class PacketList(val inner: List<PacketItem>) : PacketItem() {
+    data class PacketList(val inner: List<PacketItem>) : PacketItem(), Comparable<PacketList> {
+
         override fun toString(): String {
             return "[${inner.joinToString(",")}]"
         }
 
-        fun compareTo(other: PacketList): Int {
+        override fun compareTo(other: PacketList): Int {
             val zipped: List<Pair<PacketItem?, PacketItem?>> = this.inner.padZip(other.inner)
             zipped.forEach { (first, second) ->
                 when(first) {
@@ -124,7 +126,26 @@ class Day13(val input: List<String>) {
         return results.filter { it.second == -1 }.sumOf{it.first}
         TODO()
     }
-    fun solvePart2(): Int = TODO()
+    fun solvePart2(): Int {
+        val res = PacketItem.read("[6,4,3,7,0]").compareTo(PacketItem.read("[6,4,3,7]"))
+        println(res)
+        val res2 = PacketItem.read("[6,4,3,7,0]").compareTo(PacketItem.read("[[6]]"))
+        println(res2)
+
+        var ret = 1
+        val packet2 = PacketItem.read("[[2]]")
+        val packet6 = PacketItem.read("[[6]]")
+        val packets = listOf(packet2, packet6) + input.filter { it.isNotEmpty() }.map { PacketItem.read(it) }
+
+        packets.sorted().forEachIndexed { index, item ->
+            println(item)
+            if(item == packet2 || item == packet6) {
+                ret *= (index+1)
+            }
+        }
+        return ret
+        TODO()
+    }
 
 }
 
