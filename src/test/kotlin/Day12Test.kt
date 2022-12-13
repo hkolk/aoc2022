@@ -43,7 +43,7 @@ abdefghi
         @Test
         fun `Actual Answer`() {
             val answer = Day12(realInput).solvePart2()
-            assertThat(answer).isEqualTo(15310845153)
+            assertThat(answer).isEqualTo(454)
         }
     }
 }

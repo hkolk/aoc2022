@@ -66,7 +66,7 @@ class Day12(val input: List<String>) {
     }
     fun solvePart1(): Int {
         val path = findShortestPath(start, end, map)!!
-        println(path.second)
+        //println(path.second)
         return path.first.size -1
     }
     fun solvePart2(): Int {
