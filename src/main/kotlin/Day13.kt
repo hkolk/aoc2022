@@ -59,7 +59,7 @@ class Day13(val input: List<String>) {
         }
 
         override fun compareTo(other: PacketList): Int {
-            val zipped: List<Pair<PacketItem?, PacketItem?>> = this.inner.padZip(other.inner)
+            val zipped: List<Pair<PacketItem?, PacketItem?>> = this.inner.zipAll(other.inner)
             zipped.forEach { (first, second) ->
                 when(first) {
                     is PacketInteger -> {

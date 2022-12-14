@@ -10,7 +10,7 @@ fun List<String>.splitBy(func: (String) -> Boolean): List<List<String>> {
     var collect = mutableListOf<String>()
     for(line in this) {
         if(func(line)) {
-            ret.add(collect)
+            if(collect.isNotEmpty()) ret.add(collect)
             collect = mutableListOf()
         } else {
             collect.add(line)
@@ -47,7 +47,7 @@ fun <T:Number, E:Pair<String, T>, K> List<E>.sumValue(keySelector: (E) -> K) = g
 
 fun Boolean.toLong() = if(this) { 1L } else { 0L }
 
-fun <T> List<T>.padZip(other: List<T>): List<Pair<T?, T?>> {
+fun <T> List<T>.zipAll(other: List<T>): List<Pair<T?, T?>> {
     return if(this.size == other.size) {
         this.zip(other)
     } else if (this.size < other.size) {
@@ -56,3 +56,5 @@ fun <T> List<T>.padZip(other: List<T>): List<Pair<T?, T?>> {
         this.zip(other + List(this.size - other.size){null})
     }
 }
+
+fun Pair<Int, Int>.toRange(): IntRange = this.first..this.second

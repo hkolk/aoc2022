@@ -46,6 +46,14 @@ data class Point2D(val x:Int, val y:Int) {
         }
     }
 
+    fun allPointsTo(other: Point2D) = sequence {
+        for(x in this@Point2D.x.coerceAtMost(other.x)..this@Point2D.x.coerceAtLeast(other.x)) {
+            for(y in this@Point2D.y.coerceAtMost(other.y)..this@Point2D.y.coerceAtLeast(other.y)) {
+                yield(Point2D(x, y))
+            }
+        }
+    }
+
     companion object {
         val NORTH: (Point2D) -> Point2D =        { Point2D(x = it.x,      y = it.y - 1  ) }
         val NORTHEAST: (Point2D) -> Point2D =    { Point2D(x = it.x + 1,  y = it.y - 1  ) }
@@ -79,6 +87,14 @@ fun Map<Point2D, Int>.print() {
             } else {
                 print(' ')
             }
+        }
+        println()
+    }
+}
+fun Map<Point2D, Char>.printChars() {
+    for(y in keys.minAndMaxOf { it.y }.let { it.first..it.second }) {
+        for(x in keys.minAndMaxOf { it.x }.let { it.first..it.second }) {
+            print(this[Point2D(x, y)]?:" ")
         }
         println()
     }
