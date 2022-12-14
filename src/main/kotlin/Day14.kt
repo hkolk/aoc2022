@@ -7,15 +7,17 @@ class Day14(input: List<String>) {
                 points[0].allPointsTo(points[1]).map { it to '#' }
             }
     }.toMap()
-    val voidLimit = initialMap.keys.map { it.y }.max()
+    private val voidLimit = initialMap.keys.map { it.y }.max()
+
     fun solvePart1(): Int {
         val map = initialMap.toMutableMap()
-        //map.printChars()
         for(round in 0.. 100_000) {
             var sand = Point2D(500, 0)
             for( drop in 1 .. 2_000) {
 
-                if(!map.containsKey(sand.move(Point2D.SOUTH))) {
+                if(sand.y > voidLimit) {
+                    return round
+                } else if(!map.containsKey(sand.move(Point2D.SOUTH))) {
                     sand = sand.move(Point2D.SOUTH)
                 } else if(!map.containsKey(sand.move(Point2D.SOUTHWEST))) {
                     sand = sand.move(Point2D.SOUTHWEST)
@@ -25,12 +27,7 @@ class Day14(input: List<String>) {
                     map[sand] = 'o'
                     break
                 }
-                if(sand.y > voidLimit) {
-                    return round
-                }
             }
-            //map.printChars()
-
         }
         throw IllegalStateException("Could not settle within assigned rounds")
     }
@@ -41,7 +38,10 @@ class Day14(input: List<String>) {
             var sand = Point2D(500, 0)
             for( drop in 1 .. 2_000) {
 
-                if(!map.containsKey(sand.move(Point2D.SOUTH))) {
+                if(sand.y > voidLimit) {
+                    map[sand] = 'o'
+                    break
+                } else if(!map.containsKey(sand.move(Point2D.SOUTH))) {
                     sand = sand.move(Point2D.SOUTH)
                 } else if(!map.containsKey(sand.move(Point2D.SOUTHWEST))) {
                     sand = sand.move(Point2D.SOUTHWEST)
@@ -51,16 +51,9 @@ class Day14(input: List<String>) {
                     map[sand] = 'o'
                     break
                 }
-                if(sand.y > voidLimit) {
-                    map[sand] = 'o'
-                    //map.printChars()
-                    break
-                }
             }
-            //map.printChars()
 
             if(sand == Point2D(500, 0)) {
-                //map.printChars()
                 return round+1
             }
         }
