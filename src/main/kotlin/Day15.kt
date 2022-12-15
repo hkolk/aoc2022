@@ -8,16 +8,18 @@ class Day15(val input: List<String>) {
     fun solvePart1(detectLine: Int): Int {
         val beacons = sensors.map {it.second}.toSet()
         val detected = mutableSetOf<Point2D>()
-        sensors.forEach { sensor ->
-            val distance = sensor.first.distance(sensor.second)
+        sensors.forEach { (sensor, beacon) ->
+            val distance = sensor.distance(beacon)
             //println("$sensor -> $distance")
-            for(x in -distance .. distance) {
-                val yDist = distance - x.absoluteValue
-                for(y in -yDist .. yDist) {
-                    val spot = sensor.first.move(Point2D(x, y))
-                    if(spot.y == detectLine && !beacons.contains(spot)) {
-                        detected.add(spot)
-                        //println("$sensor, $distance, $spot, $x, $y")
+            for(y in -distance .. distance) {
+                if(detectLine == sensor.y + y) {
+                    val xDist = distance - y.absoluteValue
+                    for(x in -xDist .. xDist) {
+                        val spot = sensor.move(Point2D(x, y))
+                        if(!beacons.contains(spot)) {
+                            detected.add(spot)
+                            //println("$sensor, $distance, $spot, $x, $y")
+                        }
                     }
                 }
             }
