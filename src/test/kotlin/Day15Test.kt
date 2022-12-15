@@ -37,7 +37,7 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3
         @Test
         fun `Actual Answer`() {
             val answer = Day15(realInput).solvePart1(2000000)
-            assertThat(answer).isEqualTo(805)
+            assertThat(answer).isEqualTo(5240818)
         }
     }
     @Nested
@@ -45,14 +45,14 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3
     inner class Part2 {
         @Test
         fun `Matches Example`() {
-            val answer = Day15(testInput).solvePart2()
-            assertThat(answer).isEqualTo(93)
+            val answer = Day15(testInput).solvePart2(20)
+            assertThat(answer).isEqualTo(56000011)
         }
 
         @Test
         fun `Actual Answer`() {
-            val answer = Day15(realInput).solvePart2()
-            assertThat(answer).isEqualTo(25161)
+            val answer = Day15(realInput).solvePart2(4_000_000)
+            assertThat(answer).isEqualTo(13213086906101)
         }
     }
 }
