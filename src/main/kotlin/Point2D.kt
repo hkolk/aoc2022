@@ -30,7 +30,11 @@ data class Point2D(val x:Int, val y:Int) {
         return x.absoluteValue + y.absoluteValue
     }
 
-    fun move(direction: Point2D, times: Int=1): Point2D = move( { Point2D(it.x+direction.x, it.y + direction.y) })
+    fun distance(other: Point2D): Int {
+        return x.coerceAtLeast(other.x) - x.coerceAtMost(other.x) + y.coerceAtLeast(other.y) - y.coerceAtMost(other.y)
+    }
+
+    fun move(direction: Point2D, times: Int=1): Point2D = move( { Point2D(it.x+direction.x, it.y + direction.y) }, times)
 
     fun move(direction: (Point2D) -> Point2D, times: Int=1): Point2D {
         return direction.repeated(times).fold(this) { acc, func -> func(acc) }

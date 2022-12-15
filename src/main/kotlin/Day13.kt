@@ -1,6 +1,6 @@
 class Day13(val input: List<String>) {
 
-    abstract sealed class PacketItem() {
+    sealed class PacketItem() {
         companion object {
             fun read(input: String): PacketList {
                 val ret = innerRead(input).first.inner.first() as PacketList
