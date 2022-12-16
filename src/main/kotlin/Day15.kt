@@ -29,11 +29,6 @@ class Day15(val input: List<String>) {
     }
     fun solvePart2(gridSize: Int): Long {
         val ranges = (0 .. gridSize).map { it to listOf(0 .. gridSize) }.toMap().toMutableMap()
-        println((0..100).cutOut(50..75))
-        println((0..100).cutOut(-10..50))
-        println((0..100).cutOut(10..150))
-        println((0..100).cutOut(-10..150))
-        println((0..100).cutOut(200..250))
 
         sensors.forEach { (sensor, beacon) ->
             val distance = sensor.distance(beacon)
@@ -47,13 +42,6 @@ class Day15(val input: List<String>) {
                     ranges[actualY] = ranges[actualY]!!.flatMap {
                         it.cutOut(cutOut)
                     }
-                }
-                if(actualY == 10) {
-                    for(x in -xDist .. xDist) {
-                        val spot = sensor.move(Point2D(x, y))
-                        //println("$sensor, $distance, $spot, $x, $y")
-                    }
-                    //println(ranges[actualY])
                 }
             }
         }
