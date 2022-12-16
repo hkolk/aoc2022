@@ -27,13 +27,13 @@ Valve JJ has flow rate=21; tunnel leads to valve II
         @Test
         fun `Matches Example`() {
             val answer = Day16(testInput).solvePart1()
-            assertThat(answer).isEqualTo(26)
+            assertThat(answer).isEqualTo(1651)
         }
 
         @Test
         fun `Actual Answer`() {
             val answer = Day16(realInput).solvePart1()
-            assertThat(answer).isEqualTo(5240818)
+            assertThat(answer).isEqualTo(1880)
         }
     }
     @Nested
