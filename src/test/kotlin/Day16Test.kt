@@ -48,7 +48,7 @@ Valve JJ has flow rate=21; tunnel leads to valve II
         @Test
         fun `Actual Answer`() {
             val answer = Day16(realInput).solvePart2()
-            assertThat(answer).isEqualTo(13213086906101)
+            assertThat(answer).isEqualTo(2520)
         }
     }
 }
