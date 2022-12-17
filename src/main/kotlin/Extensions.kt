@@ -58,3 +58,20 @@ fun <T> List<T>.zipAll(other: List<T>): List<Pair<T?, T?>> {
 }
 
 fun Pair<Int, Int>.toRange(): IntRange = this.first..this.second
+
+
+fun <T> List<T>.circularIterator(): CircularIterator<T> {
+    return CircularIterator(this)
+}
+
+class CircularIterator<T>(val list: List<T>): Iterator<T> {
+    private var i = -1
+    override fun hasNext() = true
+
+    override fun next(): T {
+        i = (i + 1) % list.size
+        return list[i]
+    }
+
+    fun getIndex() = i
+}
