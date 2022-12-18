@@ -9,7 +9,7 @@ data class Point3D(val x:Int, val y:Int, val z:Int) {
         return (other.x - x).absoluteValue + (other.y - y).absoluteValue + (other.z - z).absoluteValue
     }
 
-    fun neighbours(): List<Point3D> {
+    fun adjacent(): List<Point3D> {
         return listOf(
             Point3D(x-1, y, z),
             Point3D(x+1, y, z),
