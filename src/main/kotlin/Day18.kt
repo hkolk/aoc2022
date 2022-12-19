@@ -7,13 +7,13 @@ class Day18(val input: List<String>) {
 
     fun solvePart1(): Int {
         return coords.sumOf { coord ->
-            coord.adjacent().filter { it !in coords }.size
+            coord.adjacent().count { it !in coords }
         }
     }
     fun solvePart2(): Int {
         println(outside)
         return coords.sumOf { coord ->
-            coord.adjacent().filter { it !in coords }.filter { findShortestPath(it, outside, coords) != null }.size
+            coord.adjacent().filter { it !in coords }.count { findShortestPath(it, outside, coords) != null }
         }
     }
 
