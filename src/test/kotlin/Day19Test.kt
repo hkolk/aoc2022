@@ -40,7 +40,7 @@ Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsid
         @Test
         fun `Actual Answer`() {
             val answer = Day19(realInput).solvePart2()
-            assertThat(answer).isEqualTo(1572093023267L)
+            assertThat(answer).isEqualTo(15939)
         }
     }
 }

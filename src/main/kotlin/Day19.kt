@@ -37,9 +37,7 @@ class Day19(val input: List<String>) {
             recipes.forEach { recipe ->
                 if(recipe.hasIngredients(storage)) {
                     // consume and iterate
-                    val newStorage = recipe.build(storage)
                     created.add(alreadyCreated + recipe)
-                    //created.addAll(allBuildOptions(recipes, newStorage, alreadyCreated + recipe))
                 }
             }
             return created
@@ -64,26 +62,6 @@ class Day19(val input: List<String>) {
                 GameState(recipes, newStorage, newRobots)
                 // for each option create a new state with its new inventory
             }
-            /*
-            for (recipe in recipes) {
-                // TODO: Build multiple of the same bot
-                // can I build this bot?
-                val canBuild = recipe.ingredients.all { (newStorage[it.key] ?: 0) >= it.value }
-                if (canBuild) {
-                    println(" Build: ${recipe.name}")
-                    newStorage = newStorage.map { it.key to it.value - (recipe.ingredients[it.key] ?: 0) }.toMap().toMutableMap()
-                    newRobots[recipe.name] = (newRobots[recipe.name]?:0) + 1
-                }
-            }
-            for(harvestBot in robots) {
-                if(harvestBot.value>0) {
-                    println(" Collect: ${harvestBot.value} ${harvestBot.key}")
-                }
-                newStorage[harvestBot.key] = (newStorage[harvestBot.key]?:0) + harvestBot.value
-            }
-            return listOf(GameState(recipes, newStorage, newRobots))
-
-            */
         }
 
         override fun toString(): String {
@@ -113,12 +91,11 @@ class Day19(val input: List<String>) {
                 }.sortedByDescending { it.score()  }.take(30000)
                 //println(states.sortedByDescending { it.storage["geode"]!! }.first())
             }
-            println(states.sortedByDescending { it.storage["geode"]!! }.first())
+            //println(states.sortedByDescending { it.storage["geode"]!! }.first())
             states.map{ it.storage["geode"]!! }.sortedDescending().first()
         }
-        println(scores)
+        //println(scores)
         return scores.mapIndexed{ idx, score -> (idx+1) * score}.sum()
-        TODO()
     }
     fun solvePart2(): Long {
         val blueprints = input.map { line ->
@@ -141,10 +118,10 @@ class Day19(val input: List<String>) {
                 }.sortedByDescending { it.score()  }.take(30000)
                 //println(states.sortedByDescending { it.storage["geode"]!! }.first())
             }
-            println(states.sortedByDescending { it.storage["geode"]!! }.first())
+            //println(states.sortedByDescending { it.storage["geode"]!! }.first())
             states.map{ it.storage["geode"]!! }.sortedDescending().first()
         }
-        println(scores)
+        //println(scores)
         return scores.map{score -> score}.multiply()
     }
 }
