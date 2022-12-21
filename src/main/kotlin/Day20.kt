@@ -15,7 +15,7 @@ class Day20(input: List<String>) {
             for (i in input.indices) {
                 val idx = circle.indexOfFirst { it.origIdx == i }
                 val node = circle.removeAt(idx)
-                var newIdx = ((idx + node.value) % circle.size).toInt()
+                val newIdx = ((idx + node.value) % circle.size).toInt()
                 if(newIdx == 0) {
                     circle.add(node)
                 } else {
