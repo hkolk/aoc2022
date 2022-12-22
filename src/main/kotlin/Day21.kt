@@ -53,7 +53,7 @@ class Day21(val input: List<String>) {
         TODO()
 
     }
-    fun solve(numbers: Map<String, Long>): Boolean {
+    fun solve(numbers: Map<String, Long>): Int {
         val numbers = numbers.toMutableMap()
         val equations = monkeys.mapNotNull {
             if(it.value is Monkey.EquationMonkey) {
@@ -72,8 +72,16 @@ class Day21(val input: List<String>) {
             }
         }
         println("${numbers["humn"]} = ${numbers[rootMonkey.a]} == ${numbers[rootMonkey.b]}, ${numbers[rootMonkey.a]!! - numbers[rootMonkey.b]!!}")
-        return numbers[rootMonkey.a]!! == numbers[rootMonkey.b]!!
+        val cmp = numbers[rootMonkey.a]!! - numbers[rootMonkey.b]!!
+        return if(cmp == 0L) {
+            0
+        } else if(cmp < 0) {
+            -1
+        } else {
+            1
+        }
     }
+
     fun solvePart2(): Long {
         val numbers = monkeys.mapNotNull { (key, value) ->
             if (value is Monkey.IntMonkey) {
@@ -82,10 +90,32 @@ class Day21(val input: List<String>) {
                 null
             }
         }.toMap().toMutableMap()
-        for(i in 3352886133500..3352886134000 step 1L) {
-            numbers["humn"] = i.toLong()
-            if(solve(numbers)) {
+        for (i in 1L..1000L step 1L) {
+            numbers["humn"] = i
+            if (solve(numbers) == 0) {
                 return i
+            }
+        }
+        var low = 0L
+        var high = Long.MAX_VALUE
+        while(true) {
+            val mid = low + ((high-low)/2)
+            println("mid: $mid")
+            numbers["humn"] = mid
+            var cmp = -1
+            try {
+                cmp = solve(numbers)
+            } catch (e:ArithmeticException) {
+                // assume if it doesn't fit in a Long... its not the answer :)
+                println("exception")
+            }
+            if(cmp == 0) {
+                return mid
+            } else if (cmp < 0) {
+                println("[$high, $low, $mid]")
+                high = mid - 1
+            } else {
+                low = mid + 1
             }
         }
         TODO()

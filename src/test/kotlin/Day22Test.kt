@@ -4,41 +4,40 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 
-@DisplayName("Day 21")
-class Day21Test {
+@DisplayName("Day 22")
+class Day22Test {
 
     val testInput = """
-root: pppw + sjmn
-dbpl: 5
-cczh: sllz + lgvd
-zczc: 2
-ptdq: humn - dvpt
-dvpt: 3
-lfqf: 4
-humn: 5
-ljgn: 2
-sjmn: drzm * dbpl
-sllz: 4
-pppw: cczh / lfqf
-lgvd: ljgn * ptdq
-drzm: hmdt - zczc
-hmdt: 32
+        ...#
+        .#..
+        #...
+        ....
+...#.......#
+........#...
+..#....#....
+..........#.
+        ...#....
+        .....#..
+        .#......
+        ......#.
+
+10R5L5R10L4R5L5
 """.trimIndent().lines()
-    val realInput = Resources.resourceAsList("day21.txt")
+    val realInput = Resources.resourceAsList("day22.txt")
 
     @Nested
     @DisplayName("Part 1")
     inner class Part1 {
         @Test
         fun `Matches Example`() {
-            val answer = Day21(testInput).solvePart1()
-            assertThat(answer).isEqualTo(152)
+            val answer = Day22(testInput).solvePart1()
+            assertThat(answer).isEqualTo(6032)
         }
 
         @Test
         fun `Actual Answer`() {
-            val answer = Day21(realInput).solvePart1()
-            assertThat(answer).isEqualTo(158661812617812L)
+            val answer = Day22(realInput).solvePart1()
+            assertThat(answer).isEqualTo(65368)
         }
     }
     @Nested
@@ -46,13 +45,13 @@ hmdt: 32
     inner class Part2 {
         @Test
         fun `Matches Example`() {
-            val answer = Day21(testInput).solvePart2()
+            val answer = Day22(testInput).solvePart2()
             assertThat(answer).isEqualTo(301)
         }
 
         @Test
         fun `Actual Answer`() {
-            val answer = Day21(realInput).solvePart2()
+            val answer = Day22(realInput).solvePart2()
             assertThat(answer).isEqualTo(3352886133831L)
         }
     }
