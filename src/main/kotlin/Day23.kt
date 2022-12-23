@@ -8,7 +8,7 @@ class Day23(val input: List<String>) {
         listOf(Point2D.NORTHEAST, Point2D.EAST, Point2D.SOUTHEAST) to Point2D.EAST
     )
 
-    private fun proposeNewLocation(round: Int, elf: Point2D, elves: List<Point2D>): Pair<Point2D, Point2D> {
+    private fun proposeNewLocation(round: Int, elf: Point2D, elves: Set<Point2D>): Pair<Point2D, Point2D> {
         //print("New propose: ")
         if(elf.surrounding(false).count{elves.contains(it)} == 0) {
             //println("alone")
@@ -26,7 +26,7 @@ class Day23(val input: List<String>) {
     }
 
     fun solvePart1(): Int {
-        var elves = startElves
+        var elves = startElves.toSet()
         //println("== Initial State ==")
         //elves.print()
         for(round in 0 until 10) {
@@ -35,17 +35,16 @@ class Day23(val input: List<String>) {
                 proposeNewLocation(round, elf, elves)
             }
             // check unique moves
-            val newElves = mutableListOf<Point2D>()
-            val groups = proposals.groupBy { it.first }
-            groups.values.forEach{ group ->
+            val newElves = proposals.groupBy { it.first }.values.flatMap{ group ->
                 if(group.size == 1) {
                     // move to proposed position
-                    newElves.add(group[0].first)
+                    listOf(group[0].first)
                 } else {
                     // retain original position
-                    newElves.addAll(group.map { it.second })
+                    group.map { it.second }
                 }
-            }
+            }.toSet()
+            assert(newElves.size == elves.size)
             elves = newElves
             //println("== End of Round ${round+1} ==")
             //elves.print()
@@ -56,7 +55,7 @@ class Day23(val input: List<String>) {
         TODO()
     }
     fun solvePart2(): Int {
-        var elves = startElves
+        var elves = startElves.toSet()
         //println("== Initial State ==")
         //elves.print()
         for(round in 0 until 10_000) {
@@ -66,21 +65,21 @@ class Day23(val input: List<String>) {
                 proposeNewLocation(round, elf, elves)
             }
             // check unique moves
-            val newElves = mutableListOf<Point2D>()
-            val groups = proposals.groupBy { it.first }
-            groups.values.forEach{ group ->
+            val newElves = proposals.groupBy { it.first }.values.flatMap{ group ->
                 if(group.size == 1) {
                     if(group[0].first != group[0].second) {
                         moved = true
                     }
                     // move to proposed position
-                    newElves.add(group[0].first)
+                    listOf(group[0].first)
                 } else {
                     // retain original position
-                    newElves.addAll(group.map { it.second })
+                    group.map { it.second }
                 }
-            }
+            }.toSet()
+            assert(newElves.size == elves.size)
             elves = newElves
+
             if(!moved) {
                 return round+1
             }
