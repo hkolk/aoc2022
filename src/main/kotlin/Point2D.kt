@@ -9,7 +9,9 @@ data class Point2D(val x:Int, val y:Int) {
         DIRECTIONSDIAG.map { yield(it(this@Point2D)) }
     }
 
-    fun surrounding(): List<Point2D> {
+    operator fun minus(other: Point2D) = Point2D(this.x - other.x, this.y - other.y)
+
+    fun surrounding(inclusive: Boolean = true): List<Point2D> {
         return listOf(
             NORTHWEST(this),
             NORTH(this),
@@ -20,8 +22,7 @@ data class Point2D(val x:Int, val y:Int) {
             SOUTHWEST(this),
             SOUTH(this),
             SOUTHEAST(this)
-
-        )
+        ).filter { inclusive || it != this}
     }
 
     fun flip(): Point2D = Point2D(-x, y)
@@ -109,7 +110,7 @@ fun Collection<Point2D>.print() {
             if(this.contains(Point2D(x, y))) {
                 print('░')
             } else {
-                print(' ')
+                print('.')
             }
         }
         println()
