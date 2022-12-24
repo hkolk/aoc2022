@@ -38,13 +38,13 @@ class Day24Test {
         @Test
         fun `Matches Example`() {
             val answer = Day24(testInput).solvePart2()
-            assertThat(answer).isEqualTo(20)
+            assertThat(answer).isEqualTo(54)
         }
 
         @Test
         fun `Actual Answer`() {
             val answer = Day24(realInput).solvePart2()
-            assertThat(answer).isEqualTo(3352886133831L)
+            assertThat(answer).isEqualTo(813)
         }
     }
 }

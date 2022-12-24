@@ -2,15 +2,32 @@ class Day24(input: List<String>) {
     private val initialMap = input.flatMapIndexed { y, line -> line.mapIndexed { x, c -> Point2D(x, y) to c } }.toMap()
     private val maxY = input.size-1
     private val maxX = input.first().length-1
-    private val start = initialMap.filter { it.key.y == 0 && it.value == '.' }.keys.first()
-    val finish = initialMap.filter { it.key.y == maxY && it.value == '.' }.keys.first()
+    private val origStart = initialMap.filter { it.key.y == 0 && it.value == '.' }.keys.first()
+    private val origFinish = initialMap.filter { it.key.y == maxY && it.value == '.' }.keys.first()
     private val cleanMap = initialMap.filter { it.value == '#' }.toList()
 
 
     class Path(val cur: Point2D, val path: List<Point2D>)
     fun List<Pair<Point2D, Char>>.points() = this.map { it.first }
-    fun solvePart1(): Int {
+    fun solvePart1(): Int = solve(origStart, origFinish, initialMap.filter { it.value in listOf('<', '>', 'v', '^') }.toList()).first
+
+    fun solvePart2(): Int {
         var blizzards = initialMap.filter { it.value in listOf('<', '>', 'v', '^') }.toList()
+        var minutes = 0
+        solve(origStart, origFinish, blizzards).let {
+            minutes += it.first
+            blizzards = it.second }
+        solve(origFinish, origStart, blizzards).let {
+            minutes += it.first
+            blizzards = it.second }
+        solve(origStart, origFinish, blizzards).let {
+            minutes += it.first
+            blizzards = it.second }
+        return minutes
+    }
+
+    fun solve(start: Point2D, finish: Point2D, blizzards: List<Pair<Point2D, Char>>): Pair<Int, List<Pair<Point2D, Char>>> {
+        var blizzards = blizzards
         var paths = listOf(Path(start, listOf()))
         for(minute in 1..1_000) {
             // move blizzards
@@ -34,7 +51,7 @@ class Day24(input: List<String>) {
                                     || it == start
                                     || it == finish) }
                 if(finish in options) {
-                    return path.path.size+1
+                    return path.path.size+1 to blizzards
                 }
                 val remaining = options.mapNotNull {
                     if(it !in alreadyThere) {
@@ -75,8 +92,5 @@ class Day24(input: List<String>) {
             }
         }
         return map
-    }
-    fun solvePart2(): Int {
-        TODO()
     }
 }
