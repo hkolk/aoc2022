@@ -58,6 +58,11 @@ data class Point2D(val x:Int, val y:Int) {
             }
         }
     }
+    fun isIn(a: Point2D, b: Point2D) = this.x >= a.x.coerceAtMost(b.x) &&
+            this.x <= a.x.coerceAtLeast(b.x) &&
+            this.y >= a.y.coerceAtMost(b.y) &&
+            this.y <= a.y.coerceAtLeast(b.y)
+
 
     companion object {
         val NORTH: (Point2D) -> Point2D =        { Point2D(x = it.x,      y = it.y - 1  ) }

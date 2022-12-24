@@ -362,10 +362,4 @@ class Day22(input: List<String>) {
         return listOf(topSide, rightSide, facingSide, bottomSide, leftSide, backSide)
 
     }
-
-    fun Point2D.isIn(a: Point2D, b: Point2D) = this.x >= a.x.coerceAtMost(b.x) &&
-                this.x <= a.x.coerceAtLeast(b.x) &&
-                this.y >= a.y.coerceAtMost(b.y) &&
-                this.y <= a.y.coerceAtLeast(b.y)
-
 }
