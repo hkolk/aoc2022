@@ -63,12 +63,12 @@ class Day24(input: List<String>) {
                 }
                 remaining.map { Path(it, path.path+path.cur) }
             }
-            val best = paths.map{it.cur.distance(finish)}.min()
-            //paths = paths.filter { it.cur.distance(finish) + 2 >= best }
+            val best = paths.minOf { it.cur.distance(finish) }
+            //paths = paths.filter { it.cur.distance(finish) - 15 <= best }
 
 
             //println(paths.toList())
-            if(minute % 1 == 0) {
+            if(minute % 100 == 0) {
                 println("== Minute $minute (options: ${paths.size} - $best)==")
                 //(cleanMap + blizzards).toMapHandleDuplicates().printChars()
             }
